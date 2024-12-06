@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../components/Layout/MainLayout";
+import AddVisa from "../components/AddVisa/AddVisa";
 
 
 const route = createBrowserRouter ([
@@ -17,7 +18,7 @@ const route = createBrowserRouter ([
             },
             {
                 path: "/add-visa",
-                element: <h2>Add Visa</h2>
+                element: <AddVisa />
             },
             {
                 path: "/my-added-visas",
