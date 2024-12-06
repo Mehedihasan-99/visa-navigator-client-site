@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 const AddVisa = () => {
 
-    const [requiredDocuments, setRequiredDocuments] = useState([])
+    const [requiredDocuments, setRequiredDocuments] = useState([]);
 
     const documentOptions = [
         "Valid passport",
@@ -14,16 +13,17 @@ const AddVisa = () => {
 
     const handleCheckboxChange = (e) => {
         const { value, checked } = e.target;
-        const requiredDocuments = []
-        const updatedDocuments = checked
-            ? [...requiredDocuments,value]
-            : requiredDocuments.filter((doc) => doc !== value);
-
-        setRequiredDocuments({ requiredDocuments: updatedDocuments });
+        
+        if (checked) {
+            setRequiredDocuments([...requiredDocuments, value]);
+        }
+        else{
+            setRequiredDocuments(requiredDocuments.filter(option => option !== value))
+        }
     };
 
 
-    const handleSubmit = (e) => {
+    const handleAddVisa = (e) => {
         e.preventDefault();
         const form = e.target;
         const countryImage = form.countryImage.value;
@@ -39,12 +39,33 @@ const AddVisa = () => {
         const addVisa = { countryImage, countryName, visaType, processingTime, requiredDocuments, description, ageRestriction, fee, validity, applicationMethod };
         console.log(addVisa)
 
+        // add to database 
+        fetch("http://localhost:5000/all-visas", {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(addVisa)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            if(data.insertedId){
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Visa added Done',
+                    icon: 'success',
+                    confirmButtonText: 'Cool'
+                  })
+            }
+        })
+        form.reset();
     };
 
     return (
         <div className="p-6 max-w-4xl mx-auto bg-white shadow-md rounded-md">
             <h2 className="text-3xl text-center font-bold mb-6">Add Visa</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleAddVisa}>
                 <div className="mb-4">
                     <label className="block text-sm font-medium mb-2">Country Image URL</label>
                     <input
