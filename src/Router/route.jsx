@@ -4,6 +4,7 @@ import AddVisa from "../components/AddVisa/AddVisa";
 import Login from "../components/Login/Login";
 import Register from "../components/Register/Register";
 import AllVisas from "../components/AllVisas/AllVisas";
+import Home from "../components/Home/Home";
 
 
 const route = createBrowserRouter ([
@@ -13,7 +14,8 @@ const route = createBrowserRouter ([
         children: [
             {
                 path: "/",
-                element: <h2>home</h2>
+                element: <Home/>,
+                loader: () => fetch("http://localhost:5000/all-visas")
             },
             {
                 path: "/all-visas",
