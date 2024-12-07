@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../components/Layout/MainLayout";
 import AddVisa from "../components/AddVisa/AddVisa";
 import Login from "../components/Login/Login";
+import Register from "../components/Register/Register";
+import AllVisas from "../components/AllVisas/AllVisas";
 
 
 const route = createBrowserRouter ([
@@ -15,7 +17,8 @@ const route = createBrowserRouter ([
             },
             {
                 path: "/all-visas",
-                element: <h2>All Visas</h2>
+                element: <AllVisas/>,
+                loader: () => fetch("http://localhost:5000/all-visas")
             },
             {
                 path: "/add-visa",
@@ -34,6 +37,10 @@ const route = createBrowserRouter ([
     {
         path: '/login',
         element: <Login/>
+    },
+    {
+        path: '/register',
+        element: <Register/>
     }
 ])
 

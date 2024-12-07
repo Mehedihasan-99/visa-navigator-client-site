@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import Swal from 'sweetalert2'
+
+
 
 const AddVisa = () => {
 
@@ -53,9 +55,9 @@ const AddVisa = () => {
             if(data.insertedId){
                 Swal.fire({
                     title: 'Success!',
-                    text: 'Visa added Done',
+                    text: 'Visa Add Successfully',
                     icon: 'success',
-                    confirmButtonText: 'Cool'
+                    confirmButtonText: 'Close'
                   })
             }
         })
@@ -73,6 +75,7 @@ const AddVisa = () => {
                         name="countryImage"
                         placeholder="Enter image URL"
                         className="input input-bordered w-full"
+                        required
                     />
                 </div>
                 <div className="mb-4">
@@ -82,6 +85,7 @@ const AddVisa = () => {
                         name="countryName"
                         placeholder="Enter country name"
                         className="input input-bordered w-full"
+                        required
                     />
                 </div>
                 <div className="mb-4">
@@ -89,6 +93,7 @@ const AddVisa = () => {
                     <select
                         name="visaType"
                         className="select select-bordered w-full"
+                        required
                     >
                         <option value="Tourist visa">Tourist visa</option>
                         <option value="Student visa">Student visa</option>
@@ -102,6 +107,7 @@ const AddVisa = () => {
                         name="processingTime"
                         placeholder="e.g., 10-15 days"
                         className="input input-bordered w-full"
+                        required
                     />
                 </div>
                 <div className="mb-4">
@@ -134,6 +140,7 @@ const AddVisa = () => {
                             name="ageRestriction"
                             placeholder="e.g., 18"
                             className="input input-bordered w-full"
+                            required
                         />
                     </div>
                     <div>
@@ -143,6 +150,7 @@ const AddVisa = () => {
                             name="fee"
                             placeholder="e.g., 150"
                             className="input input-bordered w-full"
+                            required
                         />
                     </div>
                 </div>
@@ -153,6 +161,7 @@ const AddVisa = () => {
                         name="validity"
                         placeholder="e.g., 6 months"
                         className="input input-bordered w-full"
+                        required
                     />
                 </div>
                 <div className="mb-4">
@@ -162,6 +171,7 @@ const AddVisa = () => {
                         name="applicationMethod"
                         placeholder="e.g., Online"
                         className="input input-bordered w-full"
+                        required
                     />
                 </div>
                 <button type="submit" className="btn btn-primary w-full">

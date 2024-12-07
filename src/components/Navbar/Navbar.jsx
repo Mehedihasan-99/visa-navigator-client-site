@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { IoMenu } from "react-icons/io5";
+import { AuthContext } from '../../Providers/AuthProvider';
 
 const Navbar = () => {
 
+    const { user, logout } = useContext(AuthContext)
+    console.log(user)
     const links = <div className="flex flex-col md:flex-row gap-2 md:gap-5 text-gray-700">
-        <NavLink to="/" className='hover:text-blue-600'>Home</NavLink>
-        <NavLink to="/all-visas" className='hover:text-blue-600'>All Visas</NavLink>
-        <NavLink to="/add-visa" className='hover:text-blue-600'>Add Visa</NavLink>
-        <NavLink to="/my-added-visas" className='hover:text-blue-600'>My added visas</NavLink>
-        <NavLink to="/my-applications" className='hover:text-blue-600'>My visa Applications</NavLink>
+        <li><NavLink to="/" className='hover:text-blue-600'>Home</NavLink></li>
+        <li><NavLink to="/all-visas" className='hover:text-blue-600'>All Visas</NavLink></li>
+        {
+            user && <li><NavLink to="/add-visa" className='hover:text-blue-600'>Add Visa</NavLink></li>
+        }
+        {
+            user && <li><NavLink to="/my-added-visas" className='hover:text-blue-600'>My added visas</NavLink></li>
+        }
+        {
+            user && <li><NavLink to="/my-applications" className='hover:text-blue-600'>My visa Applications</NavLink></li>
+        }
     </div>;
 
     return (
@@ -34,12 +43,17 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="nav-end">
-                    <button className="btn btn-primary btn-sm text-white">
-                        <Link to="/login"> Login </Link>
-                    </button>
-                    {/* <button className="btn btn-secondary btn-sm text-white">
-                        <Link to="/register"> Register </Link>
-                    </button> */}
+                    {
+                        user ? <div className='flex items-center'><h2>{user?.email}</h2> <button onClick={logout} className="btn btn-primary btn-sm text-white">Logout
+                        </button></div> : <div className='space-x-2'>
+                            <button className="btn btn-primary btn-sm text-white">
+                                <Link to="/login"> Login </Link>
+                            </button>
+                            <button className="btn btn-primary btn-sm text-white">
+                                <Link to="/register"> Register </Link>
+                            </button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
