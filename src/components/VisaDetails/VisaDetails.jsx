@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import Modal from '../Modal/Modal';
+import { AuthContext } from '../../Providers/AuthProvider';
 
 const VisaDetails = () => {
-    const visa = useLoaderData()
+    const visa = useLoaderData();
+    const { showModal, setShowModal } = useContext(AuthContext)
     const { countryImage, countryName, visaType, processingTime, requiredDocuments, description, ageRestriction, fee, validity, applicationMethod } = visa;
+
+    const handleApply = () => {
+        console.log('hello')
+        setShowModal(true);
+    }
+
+
+
+
     return (
         <div className="md:w-10/12 mx-auto card card-compact bg-base-100 shadow-xl">
             <img
@@ -21,8 +33,11 @@ const VisaDetails = () => {
                 <p><strong> Description  :</strong> {description}.</p>
 
                 <div className="card-actions justify-center mt-10">
-                    <button className="btn btn-primary" >Apply For The Visa</button>
+                    <button onClick={handleApply} className="btn btn-primary" >Apply For The Visa</button>
                 </div>
+                {
+                    showModal && <Modal></Modal>
+                }
             </div>
         </div>
     );

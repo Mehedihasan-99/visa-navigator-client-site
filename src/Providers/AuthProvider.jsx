@@ -10,7 +10,8 @@ const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState();
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal ] = useState(false)
     console.log(loading,user)
 
 
@@ -36,6 +37,8 @@ const AuthProvider = ({ children }) => {
         createNewUser,
         logout,
         login,
+        showModal,
+        setShowModal,
     }
 
     useEffect(() => {

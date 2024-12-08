@@ -7,7 +7,7 @@ const Navbar = () => {
 
     const { user, logout } = useContext(AuthContext)
     console.log(user)
-    const links = <div className="flex flex-col md:flex-row gap-2 md:gap-5 text-gray-700">
+    const links = <div className="flex flex-col md:flex-row *:text-xs gap-2 md:gap-5 text-gray-700">
         <li><NavLink to="/" className='hover:text-blue-600'>Home</NavLink></li>
         <li><NavLink to="/all-visas" className='hover:text-blue-600'>All Visas</NavLink></li>
         <li><NavLink to="/add-visa" className='hover:text-blue-600'>Add Visa</NavLink></li>
@@ -20,7 +20,7 @@ const Navbar = () => {
             <div className="navbar justify-between md:w-11/12 mx-auto bg-base-100">
                 <div className="nav-start space-x-2">
                     <div className="dropdown">
-                        <div tabIndex={0} role="button" className=" text-2xl md:hidden">
+                        <div tabIndex={0} role="button" className=" text-2xl lg:hidden">
                             <IoMenu />
                         </div>
                         <ul
@@ -29,16 +29,16 @@ const Navbar = () => {
                             {links}
                         </ul>
                     </div>
-                    <h2 className="text-2xl font-bold text-blue-600"><NavLink to="/">Visa Navigator</NavLink></h2>
+                    <h2 className=" text-xs md:text-2xl font-bold text-blue-600"><NavLink to="/">Visa Navigator</NavLink></h2>
                 </div>
-                <div className="nav-center hidden md:flex">
+                <div className="nav-center hidden lg:flex">
                     <ul className=" px-1">
                         {links}
                     </ul>
                 </div>
                 <div className="nav-end">
                     {
-                        user ? <div className='flex items-center'><h2>{user?.email}</h2> <button onClick={logout} className="btn btn-primary btn-sm text-white">Logout
+                        user ? <div className='flex items-center gap-2'><h2 className='text-xs md:text-xl'>{user?.email}</h2> <button onClick={logout} className="btn btn-primary btn-sm text-white">Logout
                         </button></div> : <div className='space-x-2'>
                             <button className="btn btn-primary btn-sm text-white">
                                 <Link to="/login"> Login </Link>
