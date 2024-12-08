@@ -10,19 +10,13 @@ const Navbar = () => {
     const links = <div className="flex flex-col md:flex-row gap-2 md:gap-5 text-gray-700">
         <li><NavLink to="/" className='hover:text-blue-600'>Home</NavLink></li>
         <li><NavLink to="/all-visas" className='hover:text-blue-600'>All Visas</NavLink></li>
-        {
-            user && <li><NavLink to="/add-visa" className='hover:text-blue-600'>Add Visa</NavLink></li>
-        }
-        {
-            user && <li><NavLink to="/my-added-visas" className='hover:text-blue-600'>My added visas</NavLink></li>
-        }
-        {
-            user && <li><NavLink to="/my-applications" className='hover:text-blue-600'>My visa Applications</NavLink></li>
-        }
+        <li><NavLink to="/add-visa" className='hover:text-blue-600'>Add Visa</NavLink></li>
+        <li><NavLink to="/my-added-visas" className='hover:text-blue-600'>My added visas</NavLink></li>
+        <li><NavLink to="/my-applications" className='hover:text-blue-600'>My visa Applications</NavLink></li> 
     </div>;
 
     return (
-        <div className='shadow-md'>
+        <div className='shadow-md bg-base-100'>
             <div className="navbar justify-between md:w-11/12 mx-auto bg-base-100">
                 <div className="nav-start space-x-2">
                     <div className="dropdown">

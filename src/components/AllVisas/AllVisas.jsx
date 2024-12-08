@@ -1,18 +1,18 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 
 const AllVisas = () => {
 
     const allVisas = useLoaderData()
     console.log(allVisas)
 
-    const handleSeeDetails = (id) => {
-        window.location.href = `/visa/${id}`;
-    };
+    // const handleSeeDetails = (id) => {
+    //     <Link to={`/all-visas/:{id}`}></Link> 
+    // };
     return (
         <div>
             <h2 className='text-center font-bold text-4xl'> All Visa </h2>
-            <div className='grid md:grid-cols-2  gap-4'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-4'>
                 {
                     allVisas.map(visa => <div className="card card-compact bg-base-100 shadow-xl">
                         <img
@@ -25,7 +25,7 @@ const AllVisas = () => {
                             <h2 className="card-title"><span className='font-bold'>Visa Validity:</span>{visa.validity}</h2>
 
                             <div className="card-actions justify-end">
-                                <button className="btn btn-primary" onClick={() => handleSeeDetails(visa._id)}>See Details</button>
+                                <button className="btn btn-primary" ><Link to={`/all-visas/${visa._id}`}>See Details</Link></button>
                             </div>
                         </div>
                     </div>)

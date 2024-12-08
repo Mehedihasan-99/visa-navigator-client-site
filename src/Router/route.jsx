@@ -5,6 +5,8 @@ import Login from "../components/Login/Login";
 import Register from "../components/Register/Register";
 import AllVisas from "../components/AllVisas/AllVisas";
 import Home from "../components/Home/Home";
+import PrivateRoute from "./PrivateRoute";
+import VisaDetails from "../components/VisaDetails/VisaDetails";
 
 
 const route = createBrowserRouter ([
@@ -23,8 +25,15 @@ const route = createBrowserRouter ([
                 loader: () => fetch("http://localhost:5000/all-visas")
             },
             {
+                path: "/all-visas/:id",
+                element: <VisaDetails/>,
+                loader: ({params}) => fetch(`http://localhost:5000/all-visas/${params.id}`)
+            },
+            {
                 path: "/add-visa",
-                element: <AddVisa />
+                element: <PrivateRoute>
+                    <AddVisa/>
+                </PrivateRoute>
             },
             {
                 path: "/my-added-visas",
