@@ -1,12 +1,22 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../Providers/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Modal = () => {
-    const { showModal, setShowModal } = useContext(AuthContext);
+    const { user, setShowModal } = useContext(AuthContext);
+    const navigate = useNavigate()
 
-    const handleApply = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const email = user?.email
+        const firstName = form.firstName.value;
+        const lastName = form.lastName.value;
+
+        const myDetails = { email, firstName, lastName }
+        console.log(myDetails)
         setShowModal(false)
+        navigate("/my-applications")
     }
 
 
@@ -15,13 +25,14 @@ const Modal = () => {
         <div>
             <div className="fixed inset-0 top-20 bg-black bg-opacity-50 flex items-center justify-center">
                 <div className="bg-white p-6 rounded-lg w-96">
-                    <h2 className="text-lg font-semibold mb-4">Apply for</h2>
-                    <form className='space-y-1'>
+                    <h2 className="text-lg text-center font-semibold mb-4 border-b-2 pb-2">Apply for Visa</h2>
+                    <form onSubmit={handleSubmit} className='space-y-1'>
                         <div>
                             <label className="block font-medium mb-1">Email</label>
                             <input
                                 type="email"
                                 name="email"
+                                placeholder={user?.email}
                                 className="w-full border rounded px-3 py-1"
                             />
                         </div>
@@ -31,6 +42,7 @@ const Modal = () => {
                                 type="text"
                                 name="firstName"
                                 className="w-full border rounded px-3 py-1"
+                                placeholder='First Name'
                             />
                         </div>
                         <div>
@@ -39,6 +51,7 @@ const Modal = () => {
                                 type="text"
                                 name="lastName"
                                 className="w-full border rounded px-3 py-1"
+                                placeholder='Last Name'
                             />
                         </div>
                         <div>
@@ -55,14 +68,12 @@ const Modal = () => {
                                 type="text"
                                 name="fee"
                                 className="w-full border rounded px-3 py-1"
+                                placeholder='e.g : 100 $'
                             />
                         </div>
                         <button
                             type="submit"
-                            onClick={() => setShowModal(false)}
-                            className="w-full bg-blue-500 text-white px-4  rounded"
-                        >
-                            <Link to= "/my-applications">Apply</Link>
+                            className="w-full bg-blue-500 text-white px-4  rounded">Apply
                         </button>
                     </form>
                 </div>

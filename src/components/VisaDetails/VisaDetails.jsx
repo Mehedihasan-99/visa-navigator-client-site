@@ -8,8 +8,7 @@ const VisaDetails = () => {
     const { showModal, setShowModal } = useContext(AuthContext)
     const { countryImage, countryName, visaType, processingTime, requiredDocuments, description, ageRestriction, fee, validity, applicationMethod } = visa;
 
-    const handleApply = () => {
-        console.log('hello')
+    const handleApplyForVisa = () => {
         setShowModal(true);
     }
 
@@ -33,7 +32,7 @@ const VisaDetails = () => {
                 <p><strong> Description  :</strong> {description}.</p>
 
                 <div className="card-actions justify-center mt-10">
-                    <button onClick={handleApply} className="btn btn-primary" >Apply For The Visa</button>
+                    <button onClick={handleApplyForVisa} className="btn btn-primary" >Apply For The Visa</button>
                 </div>
                 {
                     showModal && <Modal></Modal>

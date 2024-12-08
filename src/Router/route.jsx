@@ -9,49 +9,55 @@ import PrivateRoute from "./PrivateRoute";
 import VisaDetails from "../components/VisaDetails/VisaDetails";
 
 
-const route = createBrowserRouter ([
+const route = createBrowserRouter([
     {
         path: '/',
         element: <MainLayout />,
         children: [
             {
                 path: "/",
-                element: <Home/>,
-                loader: () => fetch("http://localhost:5000/all-visas")
+                element: <Home />,
+                loader: () => fetch("http://localhost:5000/visas")
             },
             {
                 path: "/all-visas",
-                element: <AllVisas/>,
+                element: <AllVisas />,
                 loader: () => fetch("http://localhost:5000/all-visas")
             },
             {
-                path: "/all-visas/:id",
-                element: <VisaDetails/>,
-                loader: ({params}) => fetch(`http://localhost:5000/all-visas/${params.id}`)
+                path: "/visa/details/:id",
+                element: <PrivateRoute>
+                    <VisaDetails />
+                </PrivateRoute>,
+                loader: ({ params }) => fetch(`http://localhost:5000/all-visas/${params.id}`)
             },
             {
                 path: "/add-visa",
                 element: <PrivateRoute>
-                    <AddVisa/>
+                    <AddVisa />
                 </PrivateRoute>
             },
             {
                 path: "/my-added-visas",
-                element: <h2>My Added Visas</h2>
+                element: <PrivateRoute>
+                    <h2>My Added Visas</h2>
+                </PrivateRoute>
             },
             {
                 path: "/my-applications",
-                element: <h2>My Applications Visa</h2>
+                element: <PrivateRoute>
+                    <h2>My Applications Visa</h2>
+                </PrivateRoute>
             },
         ]
     },
     {
         path: '/login',
-        element: <Login/>
+        element: <Login />
     },
     {
         path: '/register',
-        element: <Register/>
+        element: <Register />
     }
 ])
 

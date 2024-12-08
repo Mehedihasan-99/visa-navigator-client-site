@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const Login = () => {
 
-    const { login, setUser } = useContext(AuthContext);
+    const { login, setUser, googleLogin } = useContext(AuthContext);
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -21,6 +22,24 @@ const Login = () => {
                 setUser(user);
                 navigate(location?.state ? location.state : '/');
                 console.log(user)
+            })
+            .catch(error => {
+                alert(error.message)
+                console.log("Error", error)
+            })
+    }
+
+    const handleGoogleLogin = () => {
+        googleLogin()
+            .then(result => {
+                const credential = GoogleAuthProvider.credentialFormResult(result);
+                const token = credential.acceccToken;
+                const user = result.user;
+                
+                setUser(user);
+                navigate(location?.state ? location.state : '/');
+                console.log( "user Email", user.email)
+                console.log( "user Displayname", user.displayName)
             })
             .catch(error => {
                 alert(error.message)
@@ -55,6 +74,7 @@ const Login = () => {
                         <p>You are not registered already? Please <Link to="/register" className="text-red-400">Register</Link> first</p>
                     </label>
                 </form>
+                <button onClick={handleGoogleLogin} className="btn btn-primary mx-4">Google</button>
             </div>
         </div>
     );

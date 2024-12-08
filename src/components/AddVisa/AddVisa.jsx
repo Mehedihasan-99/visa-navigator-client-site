@@ -136,7 +136,7 @@ const AddVisa = () => {
                     <div>
                         <label className="block text-sm font-medium mb-2">Age Restriction</label>
                         <input
-                            type="number"
+                            type="text"
                             name="ageRestriction"
                             placeholder="e.g., 18"
                             className="input input-bordered w-full"
