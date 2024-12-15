@@ -3,17 +3,16 @@ import { useLoaderData } from 'react-router-dom';
 import Modal from '../Modal/Modal';
 import { AuthContext } from '../../Providers/AuthProvider';
 
+
+
 const VisaDetails = () => {
     const visa = useLoaderData();
-    const { showModal, setShowModal } = useContext(AuthContext)
-    const { countryImage, countryName, visaType, processingTime, requiredDocuments, description, ageRestriction, fee, validity, applicationMethod } = visa;
+    const { showModal, setShowModal  } = useContext(AuthContext)
+    const { countryImage, countryName, visaType, processingTime, description, ageRestriction, fee, validity, applicationMethod } = visa;
 
     const handleApplyForVisa = () => {
         setShowModal(true);
     }
-
-
-
 
     return (
         <div className="md:w-10/12 mx-auto card card-compact bg-base-100 shadow-xl">
@@ -35,7 +34,7 @@ const VisaDetails = () => {
                     <button onClick={handleApplyForVisa} className="btn btn-primary" >Apply For The Visa</button>
                 </div>
                 {
-                    showModal && <Modal></Modal>
+                    showModal && <Modal visa={visa}></Modal>
                 }
             </div>
         </div>

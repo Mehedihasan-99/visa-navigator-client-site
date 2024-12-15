@@ -17,10 +17,10 @@ const Home = () => {
             <Banner></Banner>
             <h2 className="text-2xl font-bold mb-6 text-center">Latest Visas</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {allVisas.map((visa) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {allVisas.slice(-6).reverse().map((visa) => (
                     <div
-                        key={visa.id}
+                        key={visa._id}
                         className="card border rounded-lg shadow-lg p-4 bg-white"
                     >
                         <img
@@ -40,7 +40,7 @@ const Home = () => {
                                 <strong>Fee:</strong> {visa.fee} $
                             </p>
                             <p>
-                                <strong>Validity:</strong> {visa.validity} months.
+                                <strong>Validity:</strong> {visa.validity} .
                             </p>
                             <p>
                                 <strong>Application Method:</strong> {visa.applicationMethod}

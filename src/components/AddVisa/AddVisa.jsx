@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Swal from 'sweetalert2'
+import { AuthContext } from "../../Providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 
 
 const AddVisa = () => {
 
+    const {user} = useContext(AuthContext)
     const [requiredDocuments, setRequiredDocuments] = useState([]);
+    const navigate = useNavigate()
 
     const documentOptions = [
         "Valid passport",
@@ -37,12 +41,13 @@ const AddVisa = () => {
         const fee = form.fee.value;
         const validity = form.validity.value;
         const applicationMethod = form.applicationMethod.value;
+        const email = user?.email || ""
 
-        const addVisa = { countryImage, countryName, visaType, processingTime, requiredDocuments, description, ageRestriction, fee, validity, applicationMethod };
+        const addVisa = { email, countryImage, countryName, visaType, processingTime, requiredDocuments, description, ageRestriction, fee, validity, applicationMethod };
         console.log(addVisa)
 
         // add to database 
-        fetch("http://localhost:5000/all-visas", {
+        fetch("http://localhost:8000/all-visas", {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -62,6 +67,7 @@ const AddVisa = () => {
             }
         })
         form.reset();
+        navigate("/")
     };
 
     return (

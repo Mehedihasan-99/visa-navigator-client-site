@@ -1,70 +1,131 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
 
-    const { createNewUser, setUser } = useContext(AuthContext);
-    const navigate = useNavigate()
+    const { createNewUser, setUser, googleLogin, updateUserProfile } = useContext(AuthContext);
+    const [error, setError] = useState({})
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
+        setError({})
+        // get form data
         const form = e.target;
         const name = form.name.value;
+        const photo = form.photo.value;
         const email = form.email.value;
-        const photoUrl = form.photoUrl.value;
         const password = form.password.value;
-        console.log(name, email, photoUrl, password)
-        createNewUser(email, password)
+        if (password.length < 6) {
+            setError({ ...error, password: "password must be  more then 6 character or long" });
+            return;
+        };
+        if (!/[A-Z]/.test(password)) {
+            setError({ ...error, password: "password must be minimum 1 Capital letter" });
+            return;
+        };
+        if (!/[a-z]/.test(password)) {
+            setError({ ...error, password: "password must be minimum 1 Small letter" });
+            return;
+        };
+        createNewUser(email, password, name, photo)
             .then(result => {
-                const newUser = result.user;
-                setUser(newUser);
-                navigate('/')
+                console.log(result.user)
+                const user = result.user;
+                console.log(user)
+                // setDoc(doc(db, "users", user.uid), {
+                //     uid: user.uid,
+                //     name,
+                //     email,
+                //     photo,
+                //     createdAt: new Date().toISOString(),
+                // });
+                // setUser(user);
+                // updateUserProfile({ displayName: name, photoURL : photo })
+                //     .then(() => {
+                //         navigate("/")
+                //         alert('update')
+                //     })
+                //     .catch((err) => alert('error update'))
+
             })
             .catch(error => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                console.log("Error", errorCode, errorMessage)
+                setError(errorCode, errorMessage);
+                alert( errorCode, errorMessage);
             })
-        form.reset()
+    };
+
+    const handleGoogleLogin = () => {
+        googleLogin()
+            .then(result => {
+                const signIn = result.user;
+                setUser(signIn);
+                navigate(location?.state ? location.state : '/');
+            })
+            .catch(error => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                setError(errorCode, errorMessage);
+                alert("Email already exist");
+            })
     }
 
     return (
-        <div className="hero bg-base-200 min-h-screen">
-            <div className="card bg-base-100 w-full max-w-sm  shadow-2xl">
-            <h2 className="text-4xl font-bold text-center py-6 border-b-2">Register</h2>
-                <form onSubmit={handleSubmit} className="card-body">
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Name</span>
-                        </label>
-                        <input type="text" name="name" placeholder="Name" className="input input-bordered" required />
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Email</span>
-                        </label>
-                        <input type="email" name="email" placeholder="Email" className="input input-bordered" required />
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Photo Url</span>
-                        </label>
-                        <input type="text" name="photoUrl" placeholder="Your Photo URL" className="input input-bordered" required />
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Password</span>
-                        </label>
-                        <input type="password" name="password" placeholder="Password" className="input input-bordered" required />
-                    </div>
-                    <div className="form-control mt-6">
-                        <button className="btn btn-primary">Register</button>
-                    </div>
-                    <label className="label">
-                            <p>Already have an account ? Please <Link to="/login" className="text-red-400">Login</Link></p>
-                        </label>
-                </form>
+        <div>
+            <div className="bg-base-300 rounded-2xl w-11/12 md:max-w-[750px] mx-auto my-10">
+                <div className="flex flex-col justify-center md:gap-2 p-2 md:px-20 py-12">
+                    <h2 className="text-center font-semibold text-2xl md:text-4xl">Register your account</h2>
+                    <div className="divider mb-0"></div>
+                    <form onSubmit={handleSubmit} className="card-body gap-0 md:gap-2 p-0">
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="md:text-xl font-semibold ">Your Name</span>
+                            </label>
+                            <input type="text" name="name" placeholder="Enter your name" className="input bg-base-200" required />
+                            {
+                                error.name && <label className="label text-xs text-red-500">{error.name}
+
+                                </label>
+                            }
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="md:text-xl font-semibold ">Photo URL</span>
+                            </label>
+                            <input type="text" name="photo" placeholder="Enter your profile picture" className="p-3 rounded-lg bg-base-200" required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="md:text-xl font-semibold ">Email</span>
+                            </label>
+                            <input type="email" name="email" placeholder="Enter your email address" className="input bg-base-200" required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="md:text-xl font-semibold">Password</span>
+                            </label>
+                            <input type="password" name="password" placeholder="password" className="input bg-base-200" required />
+                            {
+                                error.password && <label className="label text-xs text-red-500">{error.password}
+
+                                </label>
+                            }
+                        </div>
+                        <div className="flex gap-1">
+                            <input type="checkbox" name="terms" required />
+                            <span>Accept Term & Conditions</span>
+                        </div>
+                        <div className="form-control mt-2 md:mt-6">
+                            <button className="p-2 rounded-lg bg-blue-500 w-40 mx-auto">Register</button>
+                        </div>
+                        <p className="text-center pt-2">I have An Account ? <Link to='/login'><span className="text-red-500">Login</span></Link> </p>
+                    </form>
+                    <div className="divider"></div>
+                    <button onClick={handleGoogleLogin} className="w-40 md:w-60 mx-auto md:text-xl font-bold btn btn-accent">Login with Google</button>
+                </div>
             </div>
         </div>
     );

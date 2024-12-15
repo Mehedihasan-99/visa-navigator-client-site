@@ -1,25 +1,50 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../Providers/AuthProvider';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import Swal from 'sweetalert2';
 
-const Modal = () => {
+const Modal = ({ visa }) => {
     const { user, setShowModal } = useContext(AuthContext);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    console.log(visa)
+
+    const email = user.email;
+    const { _id, countryImage, countryName, visaType, processingTime, requiredDocuments, description, ageRestriction, fee, validity, applicationMethod } = visa;
+
+    const newData = { _id, email, countryImage, countryName, visaType, processingTime, requiredDocuments, description, ageRestriction, fee, validity, applicationMethod }
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = e.target;
-        const email = user?.email
         const firstName = form.firstName.value;
         const lastName = form.lastName.value;
+        const name = firstName + " " + lastName;
+        const appliedDate= new Date().toISOString().split('T')[0]
+        const application = {...newData, name, appliedDate};
+        fetch("http://localhost:8000/my-application", {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(application)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.insertedId) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Visa Add Successfully',
+                        icon: 'success',
+                        confirmButtonText: 'Close'
+                    })
+                }
+            })
 
-        const myDetails = { email, firstName, lastName }
-        console.log(myDetails)
         setShowModal(false)
-        navigate("/my-applications")
+        navigate('/')
     }
-
-
 
     return (
         <div>
@@ -32,7 +57,8 @@ const Modal = () => {
                             <input
                                 type="email"
                                 name="email"
-                                placeholder={user?.email}
+                                value={email}
+                                readOnly
                                 className="w-full border rounded px-3 py-1"
                             />
                         </div>
@@ -41,8 +67,9 @@ const Modal = () => {
                             <input
                                 type="text"
                                 name="firstName"
-                                className="w-full border rounded px-3 py-1"
+                                required
                                 placeholder='First Name'
+                                className="w-full border rounded px-3 py-1"
                             />
                         </div>
                         <div>
@@ -50,6 +77,7 @@ const Modal = () => {
                             <input
                                 type="text"
                                 name="lastName"
+                                required
                                 className="w-full border rounded px-3 py-1"
                                 placeholder='Last Name'
                             />
@@ -59,27 +87,35 @@ const Modal = () => {
                             <input
                                 type="date"
                                 name="appliedDate"
+                                readOnly
                                 className="w-full border rounded px-3 py-1"
                             />
                         </div>
                         <div>
                             <label className="block font-medium mb-1">Fee</label>
                             <input
-                                type="text"
+                                type="number"
                                 name="fee"
+                                value={fee}
+                                readOnly
                                 className="w-full border rounded px-3 py-1"
                                 placeholder='e.g : 100 $'
                             />
                         </div>
-                        <button
-                            type="submit"
-                            className="w-full bg-blue-500 text-white px-4  rounded">Apply
-                        </button>
+                        <div className='flex items-center justify-center'>
+                            <button type="submit" className="btn btn-primary mt-4">
+                                Apply
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
+
+Modal.propTypes = {
+    visa: PropTypes.object.isRequired
+}
 
 export default Modal;
