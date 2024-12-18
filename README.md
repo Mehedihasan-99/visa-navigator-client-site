@@ -7,9 +7,9 @@ The **Visa Navigator Portal** is a web application designed to streamline the vi
 
 
 ## **Live Site**
-Visit Live Site: [ Visa Navigator Portal ]()
-Visit github Repo Link Client Site:[ Github repo.](https://github.com/programming-hero-web-course2/b10-a10-client-side-Mehedihasan-99)
-Visit github Repo Link Server Site:[ Github repo.](https://github.com/programming-hero-web-course2/b10-a10-server-side-Mehedihasan-99)
+- Visit Live Site: [ Visa Navigator Portal ]()
+- Visit github Repo Link Client Site:[ Github repo.](https://github.com/programming-hero-web-course2/b10-a10-client-side-Mehedihasan-99)
+- Visit github Repo Link Server Site:[ Github repo.](https://github.com/programming-hero-web-course2/b10-a10-server-side-Mehedihasan-99)
 
 ---
 
