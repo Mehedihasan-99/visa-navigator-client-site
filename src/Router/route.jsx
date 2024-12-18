@@ -10,6 +10,7 @@ import VisaDetails from "../components/VisaDetails/VisaDetails";
 import MyAddedVisas from "../components/MyAddedVisas/MyAddedVisas";
 import MyApplicationsVisas from "../components/MyApplicationsVisas/MyApplicationsVisas";
 import Error from "../components/Error/Error";
+import UpdateVisa from "../components/UpdateVisa/UpdateVisa";
 
 
 const route = createBrowserRouter([
@@ -55,15 +56,20 @@ const route = createBrowserRouter([
                 </PrivateRoute>,
                 loader: ({params}) => fetch(`http://localhost:8000/my-applications/${params.email}`)
             },
+            {
+                path: "update-visa/:id",
+                element: <UpdateVisa />,
+                loader: ({ params }) => fetch(`http://localhost:8000/all-visas/${params.id}`)
+            },
+            {
+                path: '/login',
+                element: <Login />
+            },
+            {
+                path: '/register',
+                element: <Register />
+            }
         ]
-    },
-    {
-        path: '/login',
-        element: <Login />
-    },
-    {
-        path: '/register',
-        element: <Register />
     }
 ])
 

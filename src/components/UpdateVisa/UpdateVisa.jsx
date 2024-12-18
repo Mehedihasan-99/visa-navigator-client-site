@@ -1,15 +1,17 @@
-import React, { useContext, useState } from "react";
-import Swal from 'sweetalert2'
-import { AuthContext } from "../../Providers/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useState } from 'react';
+import { useLoaderData, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../Providers/AuthProvider';
+import Swal from 'sweetalert2';
 
+const UpdateVisa = () => {
 
+    const visa = useLoaderData();
+    const { user } = useContext(AuthContext)
+    const [requiredDocuments, setRequiredDocuments] = useState(visa.requiredDocuments || []);
+    const navigate = useNavigate();
 
-const AddVisa = () => {
-
-    const {user} = useContext(AuthContext)
-    const [requiredDocuments, setRequiredDocuments] = useState([]);
-    const navigate = useNavigate()
+    const { _id, email, countryImage, countryName, visaType, processingTime, description, ageRestriction, fee, validity, applicationMethod } = visa;
+    console.log(visa)
 
     const documentOptions = [
         "Valid passport",
@@ -17,19 +19,22 @@ const AddVisa = () => {
         "Recent passport-sized photograph",
     ];
 
+
     const handleCheckboxChange = (e) => {
         const { value, checked } = e.target;
-        
-        if (checked) {
-            setRequiredDocuments([...requiredDocuments, value]);
-        }
-        else{
-            setRequiredDocuments(requiredDocuments.filter(option => option !== value))
-        }
+
+        setRequiredDocuments((prev) => {
+            const updatedDocs = new Set(prev);
+            if (checked) {
+                updatedDocs.add(value);
+            } else {
+                updatedDocs.delete(value);
+            }
+            return Array.from(updatedDocs);
+        });
     };
 
-
-    const handleAddVisa = (e) => {
+    const handleUpdateVisa = (e) => {
         e.preventDefault();
         const form = e.target;
         const countryImage = form.countryImage.value;
@@ -43,41 +48,60 @@ const AddVisa = () => {
         const applicationMethod = form.applicationMethod.value;
         const email = user?.email || ""
 
-        const addVisa = { email, countryImage, countryName, visaType, processingTime, requiredDocuments, description, ageRestriction, fee, validity, applicationMethod };
+        const updateVisa = { email, countryImage, countryName, visaType, processingTime, requiredDocuments, description, ageRestriction, fee, validity, applicationMethod };
 
+        console.log(updateVisa)
         // add to database 
-        fetch("http://localhost:8000/all-visas", {
-            method: 'POST',
+        fetch(`http://localhost:8000/all-visas/${_id}`, {
+            method: 'PUT',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify(addVisa)
+            body: JSON.stringify(updateVisa)
         })
-        .then(res => res.json())
-        .then(data => {
-            if(data.insertedId){
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.modifiedCount > 0) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Visa updated successfully!',
+                        icon: 'success',
+                        confirmButtonText: 'Close'
+                    });
+                    navigate('/my-added-visas'); // Redirect to a relevant page after success
+                } else {
+                    Swal.fire({
+                        title: 'No Changes!',
+                        text: 'No modifications detected.',
+                        icon: 'info',
+                        confirmButtonText: 'Close'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Error updating visa:", error);
                 Swal.fire({
-                    title: 'Success!',
-                    text: 'Visa Add Successfully',
-                    icon: 'success',
+                    title: 'Error!',
+                    text: 'Failed to update visa. Please try again.',
+                    icon: 'error',
                     confirmButtonText: 'Close'
-                  })
-            }
-        })
-        form.reset();
-        navigate("/")
+                });
+            });
+
     };
 
     return (
         <div className="p-6 max-w-4xl mx-auto bg-white shadow-md rounded-md">
-            <h2 className="text-3xl text-center font-bold mb-6">Add Visa</h2>
-            <form onSubmit={handleAddVisa}>
+            <h2 className="text-3xl text-center font-bold mb-6">{countryName}</h2>
+            <form onSubmit={handleUpdateVisa}>
                 <div className="mb-4">
                     <label className="block text-sm font-medium mb-2">Country Image URL</label>
                     <input
                         type="text"
                         name="countryImage"
                         placeholder="Enter image URL"
+                        defaultValue={countryImage}
                         className="input input-bordered w-full"
                         required
                     />
@@ -88,6 +112,7 @@ const AddVisa = () => {
                         type="text"
                         name="countryName"
                         placeholder="Enter country name"
+                        defaultValue={countryName}
                         className="input input-bordered w-full"
                         required
                     />
@@ -97,6 +122,7 @@ const AddVisa = () => {
                     <select
                         name="visaType"
                         className="select select-bordered w-full"
+                        defaultValue={visaType}
                         required
                     >
                         <option value="Tourist visa">Tourist visa</option>
@@ -110,6 +136,7 @@ const AddVisa = () => {
                         type="text"
                         name="processingTime"
                         placeholder="e.g., 10-15 days"
+                        defaultValue={processingTime}
                         className="input input-bordered w-full"
                         required
                     />
@@ -121,9 +148,11 @@ const AddVisa = () => {
                             <input
                                 type="checkbox"
                                 value={doc}
+                                checked={requiredDocuments.includes(doc)}
                                 onChange={handleCheckboxChange}
                                 className="checkbox checkbox-primary mr-2"
                             />
+
                             <label>{doc}</label>
                         </div>
                     ))}
@@ -133,6 +162,7 @@ const AddVisa = () => {
                     <textarea
                         name="description"
                         placeholder="Add description"
+                        defaultValue={description}
                         className="textarea textarea-bordered w-full"
                     ></textarea>
                 </div>
@@ -143,6 +173,7 @@ const AddVisa = () => {
                             type="text"
                             name="ageRestriction"
                             placeholder="e.g., 18"
+                            defaultValue={ageRestriction}
                             className="input input-bordered w-full"
                             required
                         />
@@ -153,6 +184,7 @@ const AddVisa = () => {
                             type="number"
                             name="fee"
                             placeholder="e.g., 150"
+                            defaultValue={fee}
                             className="input input-bordered w-full"
                             required
                         />
@@ -164,6 +196,7 @@ const AddVisa = () => {
                         type="text"
                         name="validity"
                         placeholder="e.g., 6 months"
+                        defaultValue={validity}
                         className="input input-bordered w-full"
                         required
                     />
@@ -174,16 +207,17 @@ const AddVisa = () => {
                         type="text"
                         name="applicationMethod"
                         placeholder="e.g., Online"
+                        defaultValue={applicationMethod}
                         className="input input-bordered w-full"
                         required
                     />
                 </div>
                 <button type="submit" className="btn btn-primary w-full">
-                    Add Visa
+                    Update Visa
                 </button>
             </form>
         </div>
     );
 };
 
-export default AddVisa;
+export default UpdateVisa;

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const MyAddedVisas = () => {
     const allVisas = useLoaderData();
-    const [myAddVisa, setMyAddVisa] = useState(allVisas)
-    const [selectedVisa, setSelectedVisa] = useState(null);
+    const [myAddVisa, setMyAddVisa] = useState(allVisas);
 
     const handleDelete = (id) => {
         Swal.fire({
@@ -37,24 +36,6 @@ const MyAddedVisas = () => {
         });
     };
 
-    const handleUpdate = (e) => {
-        e.preventDefault();
-        fetch(`/api/update-visa/${selectedVisa.id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(selectedVisa),
-        })
-            .then(() => {
-                setVisas(
-                    visas.map((visa) =>
-                        visa.id === selectedVisa.id ? selectedVisa : visa
-                    )
-                );
-                setSelectedVisa(null); // Close modal
-            })
-            .catch((err) => console.error(err));
-    };
-
 
     return (
         <div className="p-6">
@@ -77,9 +58,8 @@ const MyAddedVisas = () => {
                                 <div className="mt-4 flex gap-2">
                                     <button
                                         className="btn btn-sm btn-warning"
-                                        onClick={() => setSelectedVisa(visa)}
                                     >
-                                        Update
+                                        <Link to={`/update-visa/${visa._id}`}>Update</Link>
                                     </button>
                                     <button
                                         className="btn btn-sm btn-error"
@@ -92,48 +72,6 @@ const MyAddedVisas = () => {
                         </div>
                     ))}
             </div>
-
-            {/* Modal for Update */}
-            {selectedVisa && (
-                <div className="modal modal-open">
-                    <div className="modal-box">
-                        <h3 className="font-bold text-lg">Update Visa</h3>
-                        <form onSubmit={handleUpdate}>
-                            <input
-                                type="text"
-                                placeholder="Country"
-                                value={selectedVisa.country}
-                                onChange={(e) =>
-                                    setSelectedVisa({ ...selectedVisa, country: e.target.value })
-                                }
-                                className="input input-bordered w-full mb-2"
-                            />
-                            <input
-                                type="number"
-                                placeholder="Fee"
-                                value={selectedVisa.fee}
-                                onChange={(e) =>
-                                    setSelectedVisa({ ...selectedVisa, fee: e.target.value })
-                                }
-                                className="input input-bordered w-full mb-2"
-                            />
-                            {/* Add other input fields here */}
-                            <div className="modal-action">
-                                <button type="submit" className="btn btn-primary">
-                                    Save Changes
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn"
-                                    onClick={() => setSelectedVisa(null)}
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

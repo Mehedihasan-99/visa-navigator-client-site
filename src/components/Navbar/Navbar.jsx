@@ -11,6 +11,7 @@ const Navbar = () => {
     const navigate = useNavigate()
 
     const email = user?.email
+    const photo = user?.photo
 
     fetch
 
@@ -62,10 +63,10 @@ const Navbar = () => {
                         user ? <div className='relative group'>
                             <img
                                 alt="Tailwind CSS Navbar component"
-                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                                src={photo}
                                 className='w-10 rounded-full cursor-pointer' />
                             <div className="absolute top-12 right-0 bg-white shadow-lg rounded-lg p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p className='text-xs md:text-xl'>{user?.email || user?.displayName}</p>
+                                <p className='text-xs md:text-xl'>{user.name}</p>
                                 <button onClick={handleLogout} className="btn btn-primary btn-sm text-white">Logout
                                 </button>
                             </div>

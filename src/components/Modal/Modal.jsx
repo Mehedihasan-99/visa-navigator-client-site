@@ -7,7 +7,6 @@ import Swal from 'sweetalert2';
 const Modal = ({ visa }) => {
     const { user, setShowModal } = useContext(AuthContext);
     const navigate = useNavigate();
-    console.log(visa)
 
     const email = user.email;
     const { _id, countryImage, countryName, visaType, processingTime, requiredDocuments, description, ageRestriction, fee, validity, applicationMethod } = visa;
