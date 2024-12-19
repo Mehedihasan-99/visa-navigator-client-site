@@ -22,19 +22,19 @@ const route = createBrowserRouter([
             {
                 path: "/",
                 element: <Home />,
-                loader: () => fetch("http://localhost:8000/all-visas")
+                loader: () => fetch("https://visa-navigator-server-lac.vercel.app/all-visas")
             },
             {
                 path: "/all-visas",
                 element: <AllVisas />,
-                loader: () => fetch("http://localhost:8000/all-visas")
+                loader: () => fetch("https://visa-navigator-server-lac.vercel.app/all-visas")
             },
             {
                 path: "/visa/details/:id",
                 element: <PrivateRoute>
                     <VisaDetails />
                 </PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:8000/all-visas/${params.id}`)
+                loader: ({ params }) => fetch(`https://visa-navigator-server-lac.vercel.app/all-visas/${params.id}`)
             },
             {
                 path: "/add-visa",
@@ -47,19 +47,19 @@ const route = createBrowserRouter([
                 element: <PrivateRoute>
                     <MyAddedVisas/>
                 </PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:8000/my-visas/${params.email}`)
+                loader: ({ params }) => fetch(`https://visa-navigator-server-lac.vercel.app/my-visas/${params.email}`)
             },
             {
                 path: "/my-applications/:email",
                 element: <PrivateRoute>
                     <MyApplicationsVisas></MyApplicationsVisas>
                 </PrivateRoute>,
-                loader: ({params}) => fetch(`http://localhost:8000/my-applications/${params.email}`)
+                loader: ({params}) => fetch(`https://visa-navigator-server-lac.vercel.app/my-applications/${params.email}`)
             },
             {
                 path: "update-visa/:id",
                 element: <UpdateVisa />,
-                loader: ({ params }) => fetch(`http://localhost:8000/all-visas/${params.id}`)
+                loader: ({ params }) => fetch(`https://visa-navigator-server-lac.vercel.app/all-visas/${params.id}`)
             },
             {
                 path: '/login',

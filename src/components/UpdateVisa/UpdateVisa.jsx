@@ -11,7 +11,6 @@ const UpdateVisa = () => {
     const navigate = useNavigate();
 
     const { _id, email, countryImage, countryName, visaType, processingTime, description, ageRestriction, fee, validity, applicationMethod } = visa;
-    console.log(visa)
 
     const documentOptions = [
         "Valid passport",
@@ -50,9 +49,8 @@ const UpdateVisa = () => {
 
         const updateVisa = { email, countryImage, countryName, visaType, processingTime, requiredDocuments, description, ageRestriction, fee, validity, applicationMethod };
 
-        console.log(updateVisa)
         // add to database 
-        fetch(`http://localhost:8000/all-visas/${_id}`, {
+        fetch(`https://visa-navigator-server-lac.vercel.app/all-visas/${_id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
@@ -61,7 +59,6 @@ const UpdateVisa = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
                 if (data.modifiedCount > 0) {
                     Swal.fire({
                         title: 'Success!',

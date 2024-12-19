@@ -18,12 +18,11 @@ const MyApplicationsVisas = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:8000/my-applications/${id}`, {
+                fetch(`https://visa-navigator-server-lac.vercel.app/my-applications/${id}`, {
                     method: "DELETE"
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log("data", data)
                         if (data.deletedCount > 0) {
                             Swal.fire({
                                 title: "Deleted!",

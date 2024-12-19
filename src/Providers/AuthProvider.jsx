@@ -68,7 +68,7 @@ const AuthProvider = ({ children }) => {
         const subscribe = onAuthStateChanged(auth, (currentUser) => {
             const email = currentUser?.email
             if (email) {
-                fetch(`http://localhost:8000/users/${email}`)
+                fetch(`https://visa-navigator-server-lac.vercel.app/users/${email}`)
                     .then(res => res.json())
                     .then(data => {
                         setUser(data)

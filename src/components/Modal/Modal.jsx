@@ -22,7 +22,7 @@ const Modal = ({ visa }) => {
         const name = firstName + " " + lastName;
         const appliedDate= new Date().toISOString().split('T')[0]
         const application = {...newData, name, appliedDate};
-        fetch("http://localhost:8000/my-application", {
+        fetch("https://visa-navigator-server-lac.vercel.app/my-application", {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

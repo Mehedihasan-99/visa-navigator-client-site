@@ -25,7 +25,6 @@ const Login = () => {
             })
             .catch(err => {
                 setError({ ...error, login: err.code })
-                console.log(err.code)
                 Swal.fire({
                     icon: "error",
                     title: "Something wrong!...",

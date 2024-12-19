@@ -33,7 +33,7 @@ const Register = () => {
         const newUser = { email, name, photo }
         createNewUser(email, password)
             .then(result => {
-                fetch("http://localhost:8000/user", {
+                fetch("https://visa-navigator-server-lac.vercel.app/user", {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'
@@ -42,7 +42,6 @@ const Register = () => {
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data)
                         if (data.insertedId) {
                             Swal.fire({
                                 title: 'Success!',

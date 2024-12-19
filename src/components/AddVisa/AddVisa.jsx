@@ -46,7 +46,7 @@ const AddVisa = () => {
         const addVisa = { email, countryImage, countryName, visaType, processingTime, requiredDocuments, description, ageRestriction, fee, validity, applicationMethod };
 
         // add to database 
-        fetch("http://localhost:8000/all-visas", {
+        fetch("https://visa-navigator-server-lac.vercel.app/all-visas", {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
