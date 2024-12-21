@@ -66,7 +66,7 @@ const UpdateVisa = () => {
                         icon: 'success',
                         confirmButtonText: 'Close'
                     });
-                    navigate('/my-added-visas'); // Redirect to a relevant page after success
+                    navigate(`/my-added-visas/${email}`);
                 } else {
                     Swal.fire({
                         title: 'No Changes!',

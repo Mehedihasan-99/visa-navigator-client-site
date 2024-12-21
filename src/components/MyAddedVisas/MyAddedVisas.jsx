@@ -39,39 +39,39 @@ const MyAddedVisas = () => {
 
     return (
         <div className="p-6">
-            <h1 className="text-2xl font-bold text-center mb-4">My Added Visas : {allVisas.length}</h1>
+            <h1 className="text-2xl font-bold text-center mb-4">My Added Visas : {myAddVisa.length}</h1>
             {
-                    allVisas.length < 1 ? <h2>No data</h2> : ""
-                }
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {
-                    myAddVisa.map((visa) => (
-                        <div key={visa._id} className="card shadow-lg">
-                            <img src={visa.countryImage} alt={visa.countryName} className="w-full h-40" />
-                            <div className="p-4">
-                                <h2 className="text-2xl pb-2 font-semibold">{visa.countryName}</h2>
-                                <p><strong>Visa Type:</strong> {visa.visaType}.</p>
-                                <p><strong>Processing Time:</strong> {visa.processingTime} days.</p>
-                                <p><strong>Fee:</strong> ${visa.fee}</p>
-                                <p><strong>Validity:</strong> {visa.validity}</p>
-                                <p><strong>Application Method:</strong> {visa.applicationMethod}.</p>
-                                <div className="mt-4 flex gap-2">
-                                    <button
-                                        className="btn btn-sm btn-warning"
-                                    >
-                                        <Link to={`/update-visa/${visa._id}`}>Update</Link>
-                                    </button>
-                                    <button
-                                        className="btn btn-sm btn-error"
-                                        onClick={() => handleDelete(visa._id)}
-                                    >
-                                        Delete
-                                    </button>
+                myAddVisa.length > 0 ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {
+                        myAddVisa.map((visa) => (
+                            <div key={visa._id} className="card shadow-lg">
+                                <img src={visa.countryImage} alt={visa.countryName} className="w-full h-40" />
+                                <div className="p-4">
+                                    <h2 className="text-2xl pb-2 font-semibold">{visa.countryName}</h2>
+                                    <p><strong>Visa Type:</strong> {visa.visaType}.</p>
+                                    <p><strong>Processing Time:</strong> {visa.processingTime} days.</p>
+                                    <p><strong>Fee:</strong> ${visa.fee}</p>
+                                    <p><strong>Validity:</strong> {visa.validity}</p>
+                                    <p><strong>Application Method:</strong> {visa.applicationMethod}.</p>
+                                    <div className="mt-4 flex gap-2">
+                                        <button
+                                            className="btn btn-sm btn-warning"
+                                        >
+                                            <Link to={`/update-visa/${visa._id}`}>Update</Link>
+                                        </button>
+                                        <button
+                                            className="btn btn-sm btn-error"
+                                            onClick={() => handleDelete(visa._id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-            </div>
+                        ))}
+                </div> : <h2>No data</h2>
+            }
+
         </div>
     );
 };
