@@ -11,9 +11,6 @@ const Navbar = () => {
     const navigate = useNavigate()
 
     const email = user?.email
-    const photo = user?.photo
-
-    fetch
 
     const links = <div className="flex flex-col lg:flex-row *:text-xs gap-2 lg:gap-5 text-gray-700">
         <li><NavLink to="/" className='hover:text-blue-600'>Home</NavLink></li>
@@ -62,11 +59,11 @@ const Navbar = () => {
                     {
                         user ? <div className='relative group'>
                             <img
-                                alt="Tailwind CSS Navbar component"
-                                src={photo}
+                                alt="user photo"
+                                src={user?.photo ? user?.photo : user?.photoURL}
                                 className='w-10 rounded-full cursor-pointer' />
                             <div className="absolute top-12 right-0 bg-white shadow-lg rounded-lg p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p className='text-xs md:text-xl'>{user.name}</p>
+                                <p className='text-xs md:text-xl'>{user?.name || user?.displayName}</p>
                                 <button onClick={handleLogout} className="btn btn-primary btn-sm text-white">Logout
                                 </button>
                             </div>

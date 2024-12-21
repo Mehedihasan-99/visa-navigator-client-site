@@ -20,6 +20,12 @@ const Login = () => {
         login(email, password)
             .then(result => {
                 const signIn = result.user;
+                Swal.fire({
+                    title: 'Success!',
+                    text: ' Login Successfully',
+                    icon: 'success',
+                    confirmButtonText: 'Close'
+                  })
                 setUser(signIn);
                 navigate(location?.state ? location.state : '/')
             })
@@ -36,14 +42,23 @@ const Login = () => {
     const handleGoogleLogin = () => {
         googleLogin()
             .then(result => {
-                // const signIn = result.user;
-                // setUser(signIn);
+                const signIn = result.user;
+                setUser(signIn);
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Login Successfully',
+                    icon: 'success',
+                    confirmButtonText: 'Close'
+                  })
                 navigate(location?.state ? location.state : '/');
-                alert(" login success")
             })
             .catch(err => {
                 setError({ ...error, login: err.code })
-                alert("password or email is does not match");
+                Swal.fire({
+                    icon: "error",
+                    title: "Something wrong!...",
+                    text: "Your email & password Does not match",
+                  });
             });
     }
 

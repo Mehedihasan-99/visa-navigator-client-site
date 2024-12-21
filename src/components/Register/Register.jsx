@@ -61,20 +61,6 @@ const Register = () => {
             })
     };
 
-    const handleGoogleLogin = () => {
-        googleLogin()
-            .then(result => {
-                const signIn = result.user;
-                setUser(signIn);
-                navigate(location?.state ? location.state : '/');
-            })
-            .catch(error => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                setError(errorCode, errorMessage);
-                alert("Email already exist");
-            })
-    }
 
     return (
         <div className=" bg-base-300 rounded-2xl w-11/12 md:w-3/4 mx-auto my-10">
@@ -125,8 +111,6 @@ const Register = () => {
                     </div>
                     <p className="text-center pt-2">I have An Account ? <Link to='/login'><span className="text-red-500">Login</span></Link> </p>
                 </form>
-                <div className="divider"></div>
-                <button onClick={handleGoogleLogin} className="w-40 md:w-60 mx-auto md:text-xl font-bold btn btn-accent">Login with Google</button>
             </div>
         </div>
     );
